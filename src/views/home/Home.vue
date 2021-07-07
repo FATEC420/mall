@@ -1,15 +1,36 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+    <home-swiper :banners="banners"></home-swiper>
+    <recommend-view :recommends="recommends"></recommend-view>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
+import { getHomeMultidata } from "network/home";
+import HomeSwiper from "./childComps/HomeSwiper.vue";
+import RecommendView from "./childComps/RecommendView.vue";
+
 export default {
   name: "Home",
   components: {
     NavBar,
+    HomeSwiper,
+    RecommendView,
+  },
+  data() {
+    return {
+      banners: [],
+      recommends: [],
+    };
+  },
+  created() {
+    //请求多个数据
+    getHomeMultidata().then((res) => {
+      this.banners = res.data.banner.list;
+      this.recommends = res.data.recommend.list;
+    });
   },
 };
 </script>
@@ -17,5 +38,6 @@ export default {
 <style scoped>
 .home-nav {
   background-color: pink;
+  color: #fff;
 }
 </style>
