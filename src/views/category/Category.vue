@@ -115,7 +115,17 @@ export default {
     };
   },
   mounted() {
-    this.scroll = new BScroll(".wrapper", {});
+    this.scroll = new BScroll(document.querySelector(".wrapper"), {
+      probeType: 2,
+      pullUpLoad: true,
+    });
+    this.scroll.on("scroll", () => {
+      //console.log(position);
+    });
+    this.scroll.on("pullingUp", () => {
+      console.log("上拉加载更多");
+      this.scroll.finishPullUp();
+    });
   },
 };
 </script>
